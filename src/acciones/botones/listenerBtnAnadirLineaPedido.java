@@ -34,11 +34,10 @@ public class listenerBtnAnadirLineaPedido implements ActionListener {
 		assert !panel.getTxtCantidad().getText().isEmpty() : "Cantidad igual o inferior a 0";
 		Logica logica = this.paraUI.getLogica();
 		if (logica.getTemporal() == null) {
-			Cliente cliente = (Cliente) new AlmacenCliente<>("./data/clientes").obtener(panel.getComboClientes().getSelectedItem());
-			logica.setTemporal(
-					new Pedido(logica.dameUltimoNumeroPedido(), cliente));
+			Cliente cliente = (Cliente) new AlmacenCliente<>("./data/clientes")
+					.obtener((panel.getComboClientes().getSelectedItem()));
+			logica.setTemporal(new Pedido(logica.dameUltimoNumeroPedido(), cliente));
 		}
-		System.out.println(((Cliente) panel.getComboClientes().getSelectedItem()));
 		Pedido pedido = logica.getTemporal();
 		Articulo articulo = (Articulo) new AlmacenArticulo<>("./data/articulos/")
 				.leer((String) (panel.getComboArticulos().getSelectedItem()));
