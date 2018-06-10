@@ -28,7 +28,7 @@ public class DAO<T> {
 					t = (T) adaptador.readObject();
 				}
 			} catch (IOException | ClassNotFoundException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				t = null;
 			}
 			cerrarFlujo(flujoR);
@@ -117,12 +117,15 @@ public class DAO<T> {
 			// System.out.println("soy la otra");
 		}
 	}
-
-	public void borrar(String rutaarchivo) {
+	
+	public boolean borrar(String rutaarchivo) {
 		File file = new File(rutaarchivo);
-		file.delete();
+		boolean retorno=false;
+		if(file.exists())
+			retorno=file.delete();
+		return retorno;
 	}
-
+	
 	public boolean borrarElemento(String pathDatos, Integer posicion) {
 		int i = 0;
 		boolean retorno = true;
@@ -136,7 +139,15 @@ public class DAO<T> {
 		}
 		File original = new File(pathDatos);
 		File copia = new File("copia");
-		if (original.delete() || !copia.renameTo(original)) {
+		if(!copia.exists()){
+			try {
+				copia.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (!original.delete() || !copia.renameTo(original)) {
 			retorno = false;
 		}
 		return retorno;
